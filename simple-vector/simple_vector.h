@@ -56,7 +56,7 @@ public:
         size_(init.size()),
         capacity_(init.size())
     {
-        std::move(init.begin(), init.end(), items_.Get());
+        std::copy(init.begin(), init.end(), items_.Get());
     }
 
     size_t GetSize() const noexcept {
@@ -187,7 +187,7 @@ public:
                 SimpleVector::swap(rhs_copy);
             }
         }
-                return *this;
+        return *this;
             
     }
 
@@ -244,7 +244,9 @@ public:
     }
 
     void PopBack() noexcept {
-        --size_;
+        if (!IsEmpty()) {
+            --size_;
+        }
     }
 
     Iterator Erase(ConstIterator pos) {
@@ -299,18 +301,18 @@ public:
     bool operator>(const SimpleVector& other);
 
     private:
-        ArrayPtr<Type> items_;
+    ArrayPtr<Type> items_;
 
-        size_t size_ = 0;
-        size_t capacity_ = 0;
-
-        void ChangeCapacity(const size_t new_size) {
-            SimpleVector new_arr(new_size);
-            size_t prev_size = size_;
-            std::move(begin(), end(), new_arr.begin());
-            swap(new_arr);
-            size_ = prev_size;
-        }
+    size_t size_ = 0;
+    size_t capacity_ = 0;
+    
+    void ChangeCapacity(const size_t new_size) {
+        SimpleVector new_arr(new_size);
+        size_t prev_size = size_;
+        std::move(begin(), end(), new_arr.begin());
+        swap(new_arr);
+        size_ = prev_size;
+    }
 };
 
 template<typename Type>

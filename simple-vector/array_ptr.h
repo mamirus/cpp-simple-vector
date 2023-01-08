@@ -29,7 +29,10 @@ public:
     }
 
     ArrayPtr& operator=(const ArrayPtr&& other) {
-        raw_ptr_.swap(move(other.raw_ptr_));
+        if (this != &other) {
+            raw_ptr_.swap(move(other.raw_ptr_));
+        }
+        return *this;
     }
 
     Type* Release() noexcept {
