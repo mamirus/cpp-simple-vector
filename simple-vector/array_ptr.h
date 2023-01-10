@@ -21,7 +21,7 @@ public:
     }
 
     ArrayPtr(const ArrayPtr&& other) {
-        swap(std::move(other.raw_ptr_));
+        std::swap(raw_ptr_, other.raw_ptr_);
     }
 
     ~ArrayPtr() {
@@ -30,7 +30,7 @@ public:
 
     ArrayPtr& operator=(const ArrayPtr&& other) {
         if (this != &other) {
-            swap(std::move(other.raw_ptr_));
+            std::swap(raw_ptr_, other.raw_ptr_);
         }
         return *this;
     }
